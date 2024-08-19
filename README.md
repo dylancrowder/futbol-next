@@ -1,6 +1,6 @@
 FUTBOL APP
 
-
+LINK DE PRUEBA: https://futbol-next.vercel.app/login
 
 Descripción
 Aplicación creada para un proceso de selección. La función de la aplicación es crear dos equipos de fútbol y, mediante una API, agregar jugadores hasta completar dos equipos de 5 jugadores cada uno. Al completar ambos equipos, se muestra un mensaje indicando que los equipos están listos.
