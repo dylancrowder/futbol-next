@@ -135,7 +135,7 @@ export default function SelectTeam() {
                 key={index}
                 className="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between h-full border-2 border-gray-200 rounded-lg"
               >
-                {/* aca */}
+             
 
                 <div className="flex items-center justify-between border-2 border-black rounded-lg p-4 bg-gray-900">
                   <h3 className="text-2xl font-bold text-white text-center">
@@ -156,7 +156,7 @@ export default function SelectTeam() {
                     </button>
                   </div>
                 </div>
-                {/* aca */}
+              
                 <ul className="mt-8 space-y-4 text-gray-800 text-xl font-semibold">
                   {team.players.map((jugador: any, jIndex: any) => (
                     <li

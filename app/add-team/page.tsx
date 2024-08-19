@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
 export default function AddTeam() {
   const [nameTeam, setNameTeam] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -13,13 +14,15 @@ export default function AddTeam() {
     setError(null);
 
     try {
+      // Convertir el nombre del equipo a minúsculas
+      const lowerCaseNameTeam = nameTeam.toLowerCase();
+
       const response = await fetch("/api/add-team", {
-        // Ajusta la URL de la API si es necesario
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ name: nameTeam }),
+        body: JSON.stringify({ name: lowerCaseNameTeam }),
       });
 
       if (!response.ok) {
