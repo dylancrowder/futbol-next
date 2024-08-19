@@ -1,31 +1,22 @@
-// src/lib/dbConnect.ts
-import mongoose, { Mongoose } from "mongoose";
+import mongoose, { connect, connection } from "mongoose";
 
 const MONGODB_URI =
   "mongodb+srv://devdylancrowder:dilan_07@cluster0.pbvemm9.mongodb.net/footbal";
 
-if (!MONGODB_URI) {
-  throw new Error(
-    "Define the MONGODB_URI environment variable inside .env.local"
-  );
-}
+const conn: any = {
+  isConnected: false,
+};
 
-let cachedClient: Mongoose | null = null;
-let cachedDb: Mongoose | null = null;
-
-async function dbConnect(): Promise<{
-  client: Mongoose | null;
-  db: Mongoose | null;
-}> {
-  if (cachedDb) {
-    return { client: cachedClient, db: cachedDb };
+export async function dbConnect() {
+  if (conn.isConnected) {
+    return;
   }
 
-  const client = await mongoose.connect(MONGODB_URI, {});
+  const db = await connect(MONGODB_URI);
 
-  cachedClient = client;
-  cachedDb = client;
-  return { client, db: client };
+  conn.isConnected = db.connections[0].readyState;
 }
 
-export default dbConnect;
+connection.on("connected", () => console.log("Mongodb connected to db"));
+
+connection.on("error", (err) => console.error("Mongodb Errro:", err.message));

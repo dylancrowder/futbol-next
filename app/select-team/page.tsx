@@ -3,35 +3,38 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 export default function SelectTeam() {
+  const [teams, setTeams] = useState<any[]>([]);
   const [cantidad, setCantidad] = useState(false);
   const [allTeamsReady, setAllTeamsReady] = useState(false);
   const [buttonAdd, setButtonAdd] = useState(false);
   const router = useRouter();
 
-  const team1 = {
-    nombre: "Argentina",
-    jugadores: [
-      "messi",
-      "depaul",
-      "roberto carlos",
-      "juancruz gonzales",
-     
-    ],
-  };
-  const team2 = {
-    nombre: "Bolivia",
-    jugadores: ["edison mamani", "el verduras", "boliviano"],
-  };
+  useEffect(() => {
+    async function fetchTeams() {
+      try {
+        const response = await fetch("/api/add-team", {
+          method: "GET",
+        });
 
-  const teams: any = [team1];
+        if (!response.ok) {
+          throw new Error("Error fetching teams");
+        }
+        const data = await response.json();
+        setTeams(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchTeams();
+  }, []);
 
   useEffect(() => {
     const hasTeams = teams.length > 0;
     setCantidad(hasTeams);
 
     const allComplete =
-      teams.length > 0 &&
-      teams.every((team: any) => team.jugadores.length === 5);
+      teams.length > 0 && teams.every((team: any) => team.players.length === 5);
 
     const bothTeamsReady = teams.length === 2 && allComplete;
     setAllTeamsReady(bothTeamsReady);
@@ -51,6 +54,38 @@ export default function SelectTeam() {
     router.push(`/add-player?team=${teamName}`);
   };
 
+  const handleDeletePlayer = async (teamName: any, playerName: any) => {
+    try {
+      const response = await fetch(
+        `/api/delete-player/${teamName}/${playerName}`,
+        {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error deleting player");
+      }
+
+      const updatedTeams = teams.map((team) =>
+        team.name === teamName
+          ? {
+              ...team,
+              players: team.players.filter(
+                (player: any) => player.player_name !== playerName
+              ),
+            }
+          : team
+      );
+      setTeams(updatedTeams);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <div className="flex flex-col items-center w-full h-screen bg-gray-50 p-8">
       {cantidad ? (
@@ -66,24 +101,35 @@ export default function SelectTeam() {
               >
                 <div>
                   <h3 className="text-2xl font-bold text-white bg-blue-700 p-4 rounded-lg text-center">
-                    {team.nombre}
+                    {team.name}
                   </h3>
                   <ul className="mt-8 space-y-4 text-gray-800 text-xl font-semibold">
-                    {team.jugadores.map((jugador: any, jIndex: any) => (
+                    {team.players.map((jugador: any, jIndex: any) => (
                       <li
                         key={jIndex}
-                        className={`p-2 rounded-lg ${
+                        className={`p-2 flex justify-between items-center rounded-lg ${
                           jIndex % 2 === 0 ? "bg-gray-100" : "bg-gray-200"
                         }`}
                       >
-                        {jIndex + 1}. {jugador}
+                        <span>
+                          {jIndex + 1}.{" "}
+                          {jugador.player_name ? jugador.player_name : jugador}
+                        </span>
+                        <button
+                          onClick={() =>
+                            handleDeletePlayer(team.name, jugador.player_name)
+                          }
+                          className="text-red-500 hover:text-red-700 transition"
+                        >
+                          &#x1F5D1;
+                        </button>
                       </li>
                     ))}
                   </ul>
                 </div>
-                {team.jugadores.length < 5 ? (
+                {team.players.length < 5 ? (
                   <button
-                    onClick={() => handleAddPlayer(team.nombre)}
+                    onClick={() => handleAddPlayer(team.name)}
                     className="mt-6 bg-green-500 text-white text-lg font-medium py-3 px-6 rounded-md hover:bg-green-600 transition duration-300"
                   >
                     Agregar jugador

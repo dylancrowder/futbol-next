@@ -12,7 +12,7 @@ export default function AddTeam() {
     setError(null);
 
     try {
-      const response = await fetch("/api", { // Ajusta la URL de la API si es necesario
+      const response = await fetch("/api/add-team", { // Ajusta la URL de la API si es necesario
         method: "POST",
         headers: {
           "Content-Type": "application/json",
