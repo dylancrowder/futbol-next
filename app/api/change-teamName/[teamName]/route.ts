@@ -13,8 +13,9 @@ export async function PUT(req: NextRequest, { params }: { params: Params }) {
   try {
     const body = await req.json();
     const { teamName } = params;
+    const { newName } = body;
 
-    // Buscar el equipo por su nombre
+    // Buscar el equipo actual por su nombre
     const existingTeam = await Team.findOne({ name: teamName }).exec();
     if (!existingTeam) {
       return NextResponse.json(
@@ -23,8 +24,17 @@ export async function PUT(req: NextRequest, { params }: { params: Params }) {
       );
     }
 
+    // Verificar si el nuevo nombre ya está en uso
+    const teamWithNewName = await Team.findOne({ name: newName }).exec();
+    if (teamWithNewName && teamWithNewName.name !== teamName) {
+      return NextResponse.json(
+        { message: "El nombre del equipo ya está en uso" },
+        { status: 400 }
+      );
+    }
+
     // Actualizar el nombre del equipo
-    existingTeam.name = body.name;
+    existingTeam.name = newName;
     await existingTeam.save();
 
     return NextResponse.json(existingTeam, { status: 200 });

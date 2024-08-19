@@ -13,9 +13,8 @@ export default function AddPlayer() {
   const [players, setPlayers] = useState<Player[]>([]);
   const [teamPlayers, setTeamPlayers] = useState<Player[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [playerU, setPlayeru] = useState<string>("");
   const [errorSearch, setErrorSearch] = useState(false);
+  const [playerU, setPlayeru] = useState<string>("");
   const [teamName, setTeamName] = useState<string>("");
 
   const fetchPlayers = useCallback(async () => {
@@ -28,6 +27,7 @@ export default function AddPlayer() {
       );
 
       if (!response.ok) {
+        toast.error("Error en la búsqueda de jugadores.");
         setErrorSearch(true);
         return;
       }
@@ -36,13 +36,14 @@ export default function AddPlayer() {
       if (Array.isArray(data)) {
         setPlayers(data);
       } else {
+        toast.error("No se encontraron jugadores.");
         setErrorSearch(true);
       }
     } catch (error) {
       if (error instanceof Error) {
-        setError(error.message);
+        toast.error(error.message);
       } else {
-        setError("An unexpected error occurred.");
+        toast.error("An unexpected error occurred.");
       }
     } finally {
       setLoading(false);
@@ -60,7 +61,9 @@ export default function AddPlayer() {
       const actualTeams = await response.json();
 
       setTeamPlayers(actualTeams.players);
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Error al obtener jugadores del equipo.");
+    }
   }, [teamName]);
 
   useEffect(() => {
@@ -103,7 +106,8 @@ export default function AddPlayer() {
 
         if (!response.ok) {
           const errorData = await response.json();
-          alert(errorData.message || "Error adding player");
+          toast.error(errorData.message || "Error adding player");
+
           return;
         }
 
@@ -111,12 +115,12 @@ export default function AddPlayer() {
 
         handleTeamPlayer();
 
-        toast.success("Jugador agregado correctamente!");
+        toast.success(updatedTeam.message);
       } catch (error) {
-        alert("An unexpected error occurred.");
+        toast.error("An unexpected error occurred.");
       }
     } else {
-      setError(
+      toast.error(
         "El equipo ya tiene 5 jugadores o no se ha especificado un equipo."
       );
     }
@@ -134,7 +138,6 @@ export default function AddPlayer() {
       />
 
       {errorSearch && <ErrorMessage message="Error en la búsqueda" />}
-      {error && <ErrorMessage message={error} />}
 
       {loading ? (
         <div>Cargando jugadores...</div>
