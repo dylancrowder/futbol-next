@@ -1,6 +1,11 @@
 FUTBOL APP
+
+
+
 Descripción
 Aplicación creada para un proceso de selección. La función de la aplicación es crear dos equipos de fútbol y, mediante una API, agregar jugadores hasta completar dos equipos de 5 jugadores cada uno. Al completar ambos equipos, se muestra un mensaje indicando que los equipos están listos.
+
+
 
 Tecnologías Utilizadas
 Frontend: React/Next.js
@@ -36,6 +41,18 @@ Ejecuta la aplicación:
 bash
 Copiar código
 npm run dev
+
+
+
+
+
+
+
+
+
+
+
+
 Endpoints
 Aquí se describen los endpoints disponibles en la API:
 
@@ -59,6 +76,13 @@ Descripción: Muestra los jugadores de un equipo.
 
 DELETE /api/removeTeam/[teamName]
 Descripción: Elimina un equipo seleccionado por su nombre.
+
+
+
+
+
+
+
 
 Contacto
 Nombre: Dylan Crowder
