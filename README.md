@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+FUTBOL APP
+Descripción
+Aplicación creada para un proceso de selección. La función de la aplicación es crear dos equipos de fútbol y, mediante una API, agregar jugadores hasta completar dos equipos de 5 jugadores cada uno. Al completar ambos equipos, se muestra un mensaje indicando que los equipos están listos.
 
-## Getting Started
+Tecnologías Utilizadas
+Frontend: React/Next.js
+Backend: Next.js
+Base de Datos: MongoDB
+Instalación
+Para instalar y ejecutar la aplicación localmente, sigue estos pasos:
 
-First, run the development server:
+Clona el repositorio:
 
-```bash
+bash
+Copiar código
+git clone https://github.com/dylancrowder/futbol-next.git
+Navega al directorio del proyecto:
+
+bash
+Copiar código
+cd futbol-app
+Instala las dependencias:
+
+bash
+Copiar código
+npm install
+Configura las variables de entorno. Crea un archivo .env en el directorio raíz con el siguiente contenido:
+
+env
+Copiar código
+MONGODB_URI=tu_uri_de_base_de_datos
+Nota: Agrega otros valores necesarios en el archivo .env según la configuración de tu proyecto.
+
+Ejecuta la aplicación:
+
+bash
+Copiar código
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Endpoints
+Aquí se describen los endpoints disponibles en la API:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+POST /api/add-players/[teamName]
+Descripción: Agrega un jugador al equipo especificado.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+POST /api/add-team
+Descripción: Agrega un equipo nuevo a la base de datos en caso de que no exista o no tenga el mismo nombre.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+GET /api/add-team/[teamName]
+Descripción: Busca un equipo por su nombre.
 
-## Learn More
+PUT /api/change-teamName/[teamName]
+Descripción: Cambia el nombre del equipo seleccionado, siempre y cuando sea un nombre no repetido.
 
-To learn more about Next.js, take a look at the following resources:
+DELETE /api/delete-player/[teamName]/[playerName]
+Descripción: Elimina un jugador del equipo seleccionado.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+GET /api/find-team-players/[teamName]
+Descripción: Muestra los jugadores de un equipo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+DELETE /api/removeTeam/[teamName]
+Descripción: Elimina un equipo seleccionado por su nombre.
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Contacto
+Nombre: Dylan Crowder
+Email: devdylancrowder@outlook.com

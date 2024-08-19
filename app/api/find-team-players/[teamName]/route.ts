@@ -13,13 +13,8 @@ export async function GET(
   await dbConnect();
 
   try {
-    console.log("este es el parametro de busqueda del endpoint" , params);
-
-    // Encuentra el equipo por el nombre proporcionado en los parámetros
     const team = await Team.findOne({ name: params.teamName }).exec();
-    console.log("este es el team desde el endpoint", team);
 
-    // Si el equipo no se encuentra, devuelve un error 404
     if (!team) {
       return NextResponse.json(
         { message: "Equipo no encontrado" },
@@ -27,11 +22,10 @@ export async function GET(
       );
     }
 
-    // Devuelve la información del equipo con un estado 200
     return NextResponse.json(team, { status: 200 });
   } catch (error: any) {
     console.error(error);
-    // Devuelve un error 500 si ocurre una excepción
+
     return NextResponse.json(
       { message: "Error al recuperar el equipo", error: error.message },
       { status: 500 }

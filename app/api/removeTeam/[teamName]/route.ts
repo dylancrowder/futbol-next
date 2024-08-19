@@ -12,7 +12,6 @@ export async function DELETE(req: NextRequest, { params }: { params: Params }) {
   try {
     const { teamName } = params;
 
-    // Buscar el equipo por su nombre
     const existingTeam = await Team.findOne({ name: teamName }).exec();
     if (!existingTeam) {
       return NextResponse.json(
@@ -21,10 +20,12 @@ export async function DELETE(req: NextRequest, { params }: { params: Params }) {
       );
     }
 
-    // Eliminar el equipo
     await Team.deleteOne({ name: teamName });
 
-    return NextResponse.json({ message: "Equipo eliminado correctamente" }, { status: 200 });
+    return NextResponse.json(
+      { message: "Equipo eliminado correctamente" },
+      { status: 200 }
+    );
   } catch (error: any) {
     console.error(error);
     return NextResponse.json(
