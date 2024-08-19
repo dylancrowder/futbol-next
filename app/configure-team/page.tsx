@@ -1,14 +1,14 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ConfigureTeam = () => {
   const searchParams = useSearchParams();
   const team = searchParams.get("team");
-  const [nameTeam, setNameTeam] = useState<string>("");
+  const [nameTeam, setNameTeam] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -19,9 +19,9 @@ const ConfigureTeam = () => {
 
     try {
       const response = await fetch(`/api/change-teamName/${team}`, {
-        method: "PUT",
+        method: 'PUT',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({ name: nameTeam }),
       });
@@ -29,12 +29,12 @@ const ConfigureTeam = () => {
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(
-          errorData.message || "Error al actualizar el nombre del equipo"
+          errorData.message || 'Error al actualizar el nombre del equipo'
         );
       }
 
-      toast.success("Nombre del equipo actualizado correctamente!");
-      setNameTeam("");
+      toast.success('Nombre del equipo actualizado correctamente!');
+      setNameTeam('');
     } catch (error: any) {
       setError(error.message);
       toast.error(`Error: ${error.message}`);
@@ -63,10 +63,10 @@ const ConfigureTeam = () => {
             type="submit"
             disabled={isSubmitting}
             className={`bg-blue-500 text-white w-full py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-300 transition duration-300 ${
-              isSubmitting ? "opacity-50 cursor-not-allowed" : ""
+              isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
             }`}
           >
-            {isSubmitting ? "Enviando..." : "Actualizar"}
+            {isSubmitting ? 'Enviando...' : 'Actualizar'}
           </button>
         </form>
       </div>
