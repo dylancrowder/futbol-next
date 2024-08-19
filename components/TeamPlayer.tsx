@@ -37,7 +37,9 @@ const TeamPlayersList: React.FC<TeamPlayersListProps> = ({
 
   return (
     <div className="w-full max-w-md bg-white shadow-md rounded-lg p-4">
-      <h2 className="text-2xl font-bold mb-4">Jugadores en el Equipo</h2>
+      <h2 className="text-2xl font-bold mb-4 text-center">
+        Jugadores en el Equipo
+      </h2>
       <ul>
         {players.map((player) => (
           <li

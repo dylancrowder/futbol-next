@@ -1,4 +1,5 @@
 import React from "react";
+import Image from "next/image";
 import { Player } from "@/types-calccio/types";
 
 interface PlayerListProps {
@@ -16,7 +17,9 @@ const PlayerList: React.FC<PlayerListProps> = ({
 }) => {
   return (
     <div className="w-full max-w-md bg-white shadow-md rounded-lg p-4 mb-8">
-      {title && <h2 className="text-2xl font-bold mb-4">{title}</h2>}
+      {title && (
+        <h2 className="text-2xl font-bold mb-4 text-center">{title}</h2>
+      )}
       <ul>
         {Array.isArray(players) && players.length > 0 ? (
           players.map((player, key) => (
@@ -25,10 +28,12 @@ const PlayerList: React.FC<PlayerListProps> = ({
               className="mb-2 p-2 border-b border-gray-200 flex items-center justify-between"
             >
               <div className="flex items-center">
-                <img
+                <Image
                   src={player.player_image}
                   alt={player.player_name}
-                  className="w-10 h-10 rounded-full mr-4"
+                  width={40}
+                  height={40}
+                  className="rounded-full mr-4"
                 />
                 <div>
                   <h2 className="font-semibold">{player.player_name}</h2>
@@ -49,7 +54,7 @@ const PlayerList: React.FC<PlayerListProps> = ({
             </li>
           ))
         ) : (
-          <div>{emptyMessage}</div>
+          <div className="text-center">{emptyMessage}</div>
         )}
       </ul>
     </div>
