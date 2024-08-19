@@ -8,9 +8,13 @@ Aplicación creada para un proceso de selección. La función de la aplicación 
 
 
 Tecnologías Utilizadas
+
 Frontend: React/Next.js
+
 Backend: Next.js
+
 Base de Datos: MongoDB
+
 Instalación
 Para instalar y ejecutar la aplicación localmente, sigue estos pasos:
 
