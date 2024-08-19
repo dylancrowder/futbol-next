@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,9 +14,15 @@ export default function AddTeam() {
     setIsSubmitting(true);
     setError(null);
 
+    const trimmedNameTeam = nameTeam.trim();
+    if (trimmedNameTeam === "") {
+      setError("El nombre del equipo no puede estar vacío.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
-      // Convertir el nombre del equipo a minúsculas
-      const lowerCaseNameTeam = nameTeam.toLowerCase();
+      const lowerCaseNameTeam = trimmedNameTeam.toLowerCase();
 
       const response = await fetch("/api/add-team", {
         method: "POST",
@@ -30,7 +37,6 @@ export default function AddTeam() {
         throw new Error(errorData.message || "Error al crear el equipo");
       }
       toast.success("Equipo creado correctamente");
-
       setNameTeam("");
     } catch (error: any) {
       toast.error(`Error: ${error.message}`);
@@ -42,9 +48,7 @@ export default function AddTeam() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-800 mb-4">
-          Agregar nuevo equipo
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-800 mb-4">Agregar nuevo equipo</h1>
         <form onSubmit={handleSubmit}>
           <input
             type="text"

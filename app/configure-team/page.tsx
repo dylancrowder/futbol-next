@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Suspense } from "react";
@@ -19,13 +18,22 @@ const ConfigureTeamContent = () => {
     setIsSubmitting(true);
     setError(null);
 
+    // Remove spaces and convert to lowercase
+    const trimmedNameTeam = nameTeam.trim();
+    const lowerCaseNameTeam = trimmedNameTeam.toLowerCase();
+    if (lowerCaseNameTeam === "") {
+      setError("El nombre del equipo no puede estar vacío.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await fetch(`/api/change-teamName/${team}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name: nameTeam }),
+        body: JSON.stringify({ name: lowerCaseNameTeam }),
       });
 
       if (!response.ok) {
