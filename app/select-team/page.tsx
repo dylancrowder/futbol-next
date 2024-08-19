@@ -7,6 +7,7 @@ export default function SelectTeam() {
   const [cantidad, setCantidad] = useState(false);
   const [allTeamsReady, setAllTeamsReady] = useState(false);
   const [buttonAdd, setButtonAdd] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
@@ -23,6 +24,8 @@ export default function SelectTeam() {
         setTeams(data);
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false); 
       }
     }
 
@@ -85,6 +88,16 @@ export default function SelectTeam() {
       console.error(error);
     }
   };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center w-full h-screen bg-gray-50">
+        <div className="text-center">
+          <p className="text-xl text-gray-700">Cargando equipos...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col items-center w-full h-screen bg-gray-50 p-8">

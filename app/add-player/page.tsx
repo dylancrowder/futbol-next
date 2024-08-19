@@ -140,13 +140,13 @@ export default function AddPlayer() {
         <div>Cargando jugadores...</div>
       ) : (
         <>
-          <PlayerList
-            players={players}
-            handleAddPlayer={handleAddPlayer}
-         
-          />
+          <PlayerList players={players} handleAddPlayer={handleAddPlayer} />
 
-          <TeamPlayersList players={teamPlayers} teamName={teamName}  handleTeamPlayer={ handleTeamPlayer}/>
+          <TeamPlayersList
+            players={teamPlayers}
+            teamName={teamName}
+            handleTeamPlayer={handleTeamPlayer}
+          />
         </>
       )}
     </div>

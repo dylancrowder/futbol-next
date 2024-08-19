@@ -29,9 +29,6 @@ const TeamPlayersList: React.FC<TeamPlayersListProps> = ({
         throw new Error("Error deleting player");
       }
 
-      const updatedTeams = players.filter(
-        (player) => player.player_name !== playerName
-      );
       handleTeamPlayer();
     } catch (error) {
       console.error("Failed to delete player:", error);
