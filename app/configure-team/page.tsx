@@ -1,11 +1,13 @@
+
 "use client";
 
+import { Suspense } from "react";
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-const ConfigureTeam = () => {
+const ConfigureTeamContent = () => {
   const searchParams = useSearchParams();
   const team = searchParams.get("team");
   const [nameTeam, setNameTeam] = useState<string>('');
@@ -72,6 +74,14 @@ const ConfigureTeam = () => {
       </div>
       <ToastContainer />
     </div>
+  );
+};
+
+const ConfigureTeam = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ConfigureTeamContent />
+    </Suspense>
   );
 };
 
