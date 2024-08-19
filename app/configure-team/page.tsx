@@ -33,7 +33,7 @@ const ConfigureTeam = () => {
         );
       }
 
-      toast.success("Nombre del equipo actualizado correctamente");
+      toast.success("Nombre del equipo actualizado correctamente!");
       setNameTeam("");
     } catch (error: any) {
       setError(error.message);
