@@ -133,34 +133,37 @@ export default function SelectTeam() {
             {teams.map((team: any, index: any) => (
               <div
                 key={index}
-                className="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between h-full border border-gray-200"
+                className="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between h-full border-2 border-gray-200 rounded-lg"
               >
-                <div className="flex items-center justify-between">
-                  <h3 className="text-2xl font-bold text-white bg-blue-700 p-4 rounded-lg">
+                {/* aca */}
+
+                <div className="flex items-center justify-between border-2 border-black rounded-lg p-4 bg-gray-900">
+                  <h3 className="text-2xl font-bold text-white text-center">
                     {team.name}
                   </h3>
                   <div className="flex space-x-4">
                     <button
                       onClick={() => handleConfigureTeam(team.name)}
-                      className="text-gray-500 hover:text-gray-700 transition"
+                      className="text-gray-500 hover:text-gray-700 transition p-2 border-2 border-black rounded-full flex items-center justify-center bg-white"
                     >
-                      &#9881;
+                      <span className="text-xl">⚙️</span>
                     </button>
                     <button
                       onClick={() => handleDeleteTeam(team.name)}
-                      className="text-red-500 hover:text-red-700 transition"
+                      className="text-red-500 hover:text-red-700 transition border-2 border-black rounded-full p-2 flex items-center justify-center bg-white"
                     >
-                      &#x1F5D1;
+                      <span className="text-xl">🗑️</span>
                     </button>
                   </div>
                 </div>
+                {/* aca */}
                 <ul className="mt-8 space-y-4 text-gray-800 text-xl font-semibold">
                   {team.players.map((jugador: any, jIndex: any) => (
                     <li
                       key={jIndex}
                       className={`p-2 flex justify-between items-center rounded-lg ${
                         jIndex % 2 === 0 ? "bg-gray-100" : "bg-gray-200"
-                      }`}
+                      } border-2 border-gray-200 rounded-lg`}
                     >
                       <span>
                         {jugador.player_name ? jugador.player_name : jugador}
@@ -169,9 +172,9 @@ export default function SelectTeam() {
                         onClick={() =>
                           handleDeletePlayer(team.name, jugador.player_name)
                         }
-                        className="text-red-500 hover:text-red-700 transition"
+                        className="text-red-500 hover:text-red-700 transition border-2 border-black rounded-full p-2 flex items-center justify-center"
                       >
-                        &#x1F5D1;
+                        <span className="text-xl">🗑️</span>
                       </button>
                     </li>
                   ))}

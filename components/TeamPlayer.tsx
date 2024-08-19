@@ -63,10 +63,10 @@ const TeamPlayersList: React.FC<TeamPlayersListProps> = ({
             </div>
             <button
               onClick={() => handleDeletePlayer(player.player_name)}
-              className="text-red-500 hover:text-red-700 transition"
+              className="text-red-500 hover:text-red-700 transition border-2 border-black rounded-full p-2 flex items-center justify-center bg-white"
               aria-label="Eliminar jugador"
             >
-              &#x1F5D1;
+              <span className="text-xl">🗑️</span>
             </button>
           </li>
         ))}
