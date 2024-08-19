@@ -25,7 +25,7 @@ export default function SelectTeam() {
       } catch (error) {
         console.error(error);
       } finally {
-        setLoading(false); 
+        setLoading(false);
       }
     }
 
@@ -89,6 +89,29 @@ export default function SelectTeam() {
     }
   };
 
+  const handleDeleteTeam = async (teamName: any) => {
+    try {
+      const response = await fetch(`/api/removeTeam/${teamName}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Error deleting team");
+      }
+
+      setTeams(teams.filter((team) => team.name !== teamName));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleConfigureTeam = (teamName: any) => {
+    router.push(`/configure-team?team=${teamName}`);
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center w-full h-screen bg-gray-50">
@@ -112,34 +135,47 @@ export default function SelectTeam() {
                 key={index}
                 className="bg-white rounded-lg shadow-lg p-8 flex flex-col justify-between h-full border border-gray-200"
               >
-                <div>
-                  <h3 className="text-2xl font-bold text-white bg-blue-700 p-4 rounded-lg text-center">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-bold text-white bg-blue-700 p-4 rounded-lg">
                     {team.name}
                   </h3>
-                  <ul className="mt-8 space-y-4 text-gray-800 text-xl font-semibold">
-                    {team.players.map((jugador: any, jIndex: any) => (
-                      <li
-                        key={jIndex}
-                        className={`p-2 flex justify-between items-center rounded-lg ${
-                          jIndex % 2 === 0 ? "bg-gray-100" : "bg-gray-200"
-                        }`}
-                      >
-                        <span>
-                          {jIndex + 1}.{" "}
-                          {jugador.player_name ? jugador.player_name : jugador}
-                        </span>
-                        <button
-                          onClick={() =>
-                            handleDeletePlayer(team.name, jugador.player_name)
-                          }
-                          className="text-red-500 hover:text-red-700 transition"
-                        >
-                          &#x1F5D1;
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
+                  <div className="flex space-x-4">
+                    <button
+                      onClick={() => handleConfigureTeam(team.name)}
+                      className="text-gray-500 hover:text-gray-700 transition"
+                    >
+                      &#9881;
+                    </button>
+                    <button
+                      onClick={() => handleDeleteTeam(team.name)}
+                      className="text-red-500 hover:text-red-700 transition"
+                    >
+                      &#x1F5D1;
+                    </button>
+                  </div>
                 </div>
+                <ul className="mt-8 space-y-4 text-gray-800 text-xl font-semibold">
+                  {team.players.map((jugador: any, jIndex: any) => (
+                    <li
+                      key={jIndex}
+                      className={`p-2 flex justify-between items-center rounded-lg ${
+                        jIndex % 2 === 0 ? "bg-gray-100" : "bg-gray-200"
+                      }`}
+                    >
+                      <span>
+                        {jugador.player_name ? jugador.player_name : jugador}
+                      </span>
+                      <button
+                        onClick={() =>
+                          handleDeletePlayer(team.name, jugador.player_name)
+                        }
+                        className="text-red-500 hover:text-red-700 transition"
+                      >
+                        &#x1F5D1;
+                      </button>
+                    </li>
+                  ))}
+                </ul>
                 {team.players.length < 5 ? (
                   <button
                     onClick={() => handleAddPlayer(team.name)}

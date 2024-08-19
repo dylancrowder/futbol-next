@@ -17,7 +17,7 @@ const Navbar = () => {
           className="flex items-center space-x-2 hover:text-gray-400"
         >
           <UserIcon className="h-6 w-6" />
-          <span className="text-xl font-semibold">Seccion</span>
+          <span className="text-xl font-semibold">Login</span>
         </Link>
       </div>
     </nav>

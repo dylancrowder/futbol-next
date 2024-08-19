@@ -1,8 +1,13 @@
 "use client";
+
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-export default function AddTeam() {
+
+const ConfigureTeam = () => {
+  const searchParams = useSearchParams();
+  const team = searchParams.get("team");
   const [nameTeam, setNameTeam] = useState<string>("");
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -13,9 +18,8 @@ export default function AddTeam() {
     setError(null);
 
     try {
-      const response = await fetch("/api/add-team", {
-        // Ajusta la URL de la API si es necesario
-        method: "POST",
+      const response = await fetch(`/api/change-teamName/${team}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
@@ -24,12 +28,15 @@ export default function AddTeam() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || "Error al crear el equipo");
+        throw new Error(
+          errorData.message || "Error al actualizar el nombre del equipo"
+        );
       }
-      toast.success("Equipo creado correctamente");
 
+      toast.success("Nombre del equipo actualizado correctamente");
       setNameTeam("");
     } catch (error: any) {
+      setError(error.message);
       toast.error(`Error: ${error.message}`);
     } finally {
       setIsSubmitting(false);
@@ -40,7 +47,7 @@ export default function AddTeam() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-md">
         <h1 className="text-2xl font-bold text-gray-800 mb-4">
-          Agregar nuevo equipo
+          Cambiar el nombre del equipo
         </h1>
         <form onSubmit={handleSubmit}>
           <input
@@ -59,11 +66,13 @@ export default function AddTeam() {
               isSubmitting ? "opacity-50 cursor-not-allowed" : ""
             }`}
           >
-            {isSubmitting ? "Enviando..." : "Agregar"}
+            {isSubmitting ? "Enviando..." : "Actualizar"}
           </button>
         </form>
       </div>
       <ToastContainer />
     </div>
   );
-}
+};
+
+export default ConfigureTeam;
